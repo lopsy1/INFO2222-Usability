@@ -54,12 +54,12 @@ async function keyFromJSON(keyJSON, uses){
 }
 
 async function aesKeyFromPassword(password, salt) {
-    const keySalt = new TextEncoder().encode(salt)
+    const keySalt = encodeText(salt);
     const keyData = await crypto.subtle.importKey(
         "raw",
-        new TextEncoder().encode(password),
+        encodeText(password),
         "PBKDF2",
-        true,
+        false,
         ["deriveBits", "deriveKey"],
     );
     const messageKey = await crypto.subtle.deriveKey(
