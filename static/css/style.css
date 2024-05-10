@@ -1,0 +1,79 @@
+:root {
+    --color-bg-0: #fdfaf8;
+    --color-prm-0: #ce9a7c;
+    --color-sec-0: #addca8;
+    --color-acc-0: #57c985;
+    --color-txt-0: #140d07;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "Lexend", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--color-txt-0);
+    background-color: var(--color-prm-0);
+}
+
+body {
+    margin: 0;
+}
+
+nav {
+    overflow: hidden;
+    background-color: var(--color-sec-0);
+}
+
+#nav-username {
+    float: right;
+    padding: 0.625rem;
+}
+
+nav a {
+    float: left;
+    padding: 0.5rem;
+    background-color: var(--color-acc-0);
+    color: var(--color-txt-0);
+    font-size: 1.25rem;
+    text-decoration: none;
+}
+
+main {
+    border-top: 1.5rem solid var(--color-acc-0);
+    padding: 1px; /* Stops margin collapse */
+    margin-top: 2rem;
+    margin-inline: auto;
+    min-height: 100dvh;
+    margin-bottom: 5rem;
+    /* max-width: min(80rem, calc(100% - 4rem)); */
+    max-width: 60rem;
+    background-color: var(--color-bg-0);
+}
+
+section.text {
+    margin: 2rem;
+}
+
+footer {
+    background-color: var(--color-sec-0);
+    padding: 0.5rem;
+}
+
+
+/* holdover from template */
+
+#message_box {
+    border: 1px solid black;
+    height: 400px;
+    width: 800px;
+    overflow: auto;
+    padding: 2px;
+}
+
+.xtext {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}

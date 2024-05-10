@@ -5,40 +5,8 @@
 
 
 {% block content %}
-<style>
-    nav {
-        border-bottom: 1px solid black;
-        overflow: auto
-    }
-
-    #message_box {
-        border: 1px solid black;
-        height: 400px;
-        width: 800px;
-        overflow: auto;
-        padding: 2px;
-    }
-
-    .text {
-        margin-top: 2px;
-        margin-bottom: 2px;
-    }
-</style>
-
-<!--Navbar, you'll see the username here-->
-<nav style="border-bottom: 1px solid black;">
-    <ol style="float: left">
-        <li style="display:inline-block"><a href="{{ url_for('home') }}">Home</a></li>
-        <li style="display:inline-block"><a href="{{ url_for('friends') }}">Friends</a></li>
-    </ol>
-    <ol style="float: right">
-        <li style="display:inline-block">Username: {{ username }} </li>
-    </ol>
-</nav>
-
-<h1>Messaging App </h1>
-
 <main>
+    <h1>Messaging App </h1>
     <!-- The messages are displayed here -->
     <section id="message_box">
         <section id="message_box_history">
@@ -72,8 +40,8 @@
 <script src="/static/js/libs/bcrypt.min.js"></script>
 <script src="/static/js/message-encryption.js"></script>
 <script>
+    username = "{{ username }}";
     var room_id = {{ room_id }};
-    let username = "{{ username }}";
     let partner = "{{ partner }}"
     Cookies.set('username', username);
 

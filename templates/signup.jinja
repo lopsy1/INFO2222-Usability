@@ -5,20 +5,39 @@ Sign up page, pretty much the same as login.
 
 
 {% block content %}
-<h1>Sign Up</h1>
-<p>Username</p>
-<input id="username" />
-<p>Password</p>
-<input id="password" type="password" />
-<button onclick="signup()">Sign Up</button>
-<p style="visibility: hidden;" id="capitalError"> Error: Password must contain a capital letter.</p>
-<p style="visibility: hidden;" id="specialError"> Error: Password must contain a non-alphabetic character.</p>
-<p><a href={{ url_for('login') }}>Log In</a></p>
+<main>
+    <section class="text">
+        <div class="login-form">
+            <h2>Sign Up</h2>
+            <label for="username">Username: </label><br>
+            <input id="username" autofocus /><br><br>
+            <label for="password">Password: </label><br>
+            <input id="password" type="password" />
+            <button onclick="signup()">Sign Up</button>
+        </div>
+        <p>
+            <a href="/login">Log in instead</a>
+        </p>
+    </section>
+</main>
 
 <script src="/static/js/libs/bcrypt.min.js"></script>
 <script src="/static/js/message-encryption.js"></script>
 <script>
     var bcrypt = dcodeIO.bcrypt;
+
+    $("#username").on("keyup", (e) => {
+        if (e.key == "Enter") {
+            $("#password").focus();
+        }
+    });
+
+    $("#password").on("keyup", (e) => {
+        if (e.key == "Enter") {
+            signup();
+        }
+    });
+
     function isValidURL(string) {
         if (string.length == 0) {
             return false;
@@ -86,7 +105,7 @@ Sign up page, pretty much the same as login.
         const passwordSalt = bcrypt.genSaltSync();
         const passwordHash = bcrypt.hashSync($("#password").val(), passwordSalt)
 
-        console.log("out salt:", "<"+passwordSalt+">", typeof passwordSalt);
+        console.log("out salt:", "<" + passwordSalt + ">", typeof passwordSalt);
 
         // Generate public and private key from password
         const messageKey = await aesKeyFromPassword(password, passwordSalt);
