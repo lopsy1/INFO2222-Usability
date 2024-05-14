@@ -1,6 +1,6 @@
 :root {
     --color-bg-0: #fdfaf8;
-    --color-prm-0: #ce9a7c;
+    --color-prm-0: #1a1a1a;
     --color-sec-0: #addca8;
     --color-acc-0: #57c985;
     --color-txt-0: #140d07;
@@ -11,11 +11,20 @@
 }
 
 html {
-    font-family: "Lexend", sans-serif;
+    font-family: "FreeMono", monospace;
     font-weight: 400;
     font-size: 18px;
-    color: var(--color-txt-0);
+    color: #000000;
     background-color: var(--color-prm-0);
+}
+
+#password {
+    margin-bottom: 19px;
+}
+
+button.signuplogin {
+    border-radius:5px;
+    width: 177px; 
 }
 
 body {
@@ -24,7 +33,15 @@ body {
 
 nav {
     overflow: hidden;
-    background-color: var(--color-sec-0);
+    background-color: #3b3b3b;
+}
+
+ul.button {
+    display: inline;
+}
+
+ul a:hover {
+background-color: #292929;
 }
 
 #nav-username {
@@ -35,31 +52,40 @@ nav {
 nav a {
     float: left;
     padding: 0.5rem;
-    background-color: var(--color-acc-0);
-    color: var(--color-txt-0);
+    background-color: #3b3b3b;
+    color: #140d07;
     font-size: 1.25rem;
     text-decoration: none;
+    display: block;
+}
+
+div.login-form {
+    text-align: center;
 }
 
 main {
-    border-top: 1.5rem solid var(--color-acc-0);
-    padding: 1px; /* Stops margin collapse */
-    margin-top: 2rem;
+    padding: 2px; /* Stops margin collapse */
+    margin-top: 15rem;
     margin-inline: auto;
-    min-height: 100dvh;
-    margin-bottom: 5rem;
+    margin-bottom: 15.6rem;
     /* max-width: min(80rem, calc(100% - 4rem)); */
-    max-width: 60rem;
-    background-color: var(--color-bg-0);
+    max-width: 20rem;
+    background-color: #3a3a3a;
+    border-radius: 15px;
+    border: 5px solid #292929;
 }
 
 section.text {
     margin: 2rem;
 }
 
+
+
 footer {
-    background-color: var(--color-sec-0);
+    background-color: #1a1a1a;
     padding: 0.5rem;
+    position: absolute;
+    bottom: 0;
 }
 
 
