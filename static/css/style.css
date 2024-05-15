@@ -34,14 +34,20 @@ body {
 nav {
     overflow: hidden;
     background-color: #3b3b3b;
+    box-shadow: 0 0 40px;
 }
 
 ul.button {
     display: inline;
 }
 
+#chat_box {
+padding: 10px;
+}
+
 ul a:hover {
 background-color: #292929;
+transition-duration: 0.3s;
 }
 
 #nav-username {
@@ -67,7 +73,6 @@ main {
     padding: 2px; /* Stops margin collapse */
     margin-top: 15rem;
     margin-inline: auto;
-    margin-bottom: 15.6rem;
     /* max-width: min(80rem, calc(100% - 4rem)); */
     max-width: 20rem;
     background-color: #3a3a3a;
@@ -75,15 +80,36 @@ main {
     border: 5px solid #292929;
 }
 
+main.messaging-app {
+    max-width: fit-content;
+    box-shadow: 0 0 5px;
+    margin-top: 8rem;
+}
+
+main.friends {
+    width: 100px;
+}
+
 section.text {
     margin: 2rem;
 }
 
+#receiver { 
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    background-color: #3a3a3a;
+    font-family: monospace;
+}
 
+input#receiver:focus { 
+    outline: 0;
+}
 
 footer {
     background-color: #1a1a1a;
-    padding: 0.5rem;
+    padding-bottom: 0.1rem;
+    padding-left: 0.3rem;
     position: absolute;
     bottom: 0;
 }
@@ -92,7 +118,7 @@ footer {
 /* holdover from template */
 
 #message_box {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     height: 400px;
     width: 800px;
     overflow: auto;

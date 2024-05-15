@@ -5,7 +5,7 @@
 
 
 {% block content %}
-<main>
+<main class="messaging-app">
     <h1>Messaging App </h1>
     <!-- The messages are displayed here -->
     <section id="message_box">
@@ -19,7 +19,7 @@
     <!-- These part ideally should be a form element, 
     but I wrote this code a year ago and I don't want to break anything...-->
     <section id="chat_box">
-        <p class="text">Chat with: </p>
+        <p style="display: inline;" class="text">Chat with: </p>
         <input id="receiver" placeholder="username">
         <!-- MDN says its bad practice to use the onclick attribute,
         but we're using it anyways coz its easy :)-->
@@ -29,7 +29,7 @@
     <!-- The (message) input box is set to display: none initially, 
     this means the input box is "invisible" initially-->
     <section id="input_box" style="display: none">
-        <p class="text">Message: </p>
+        <p style="display:inline" class="text">Message: </p>
         <input id="message" placeholder="message">
         <button onclick="send()">Send</button>
         <button onclick="leave()">Leave Room</button>
