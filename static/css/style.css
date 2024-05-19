@@ -22,6 +22,11 @@ body {
     margin: 0;
 }
 
+a {
+    color: var(--color-acc-0);
+    font-weight: 500;
+}
+
 nav {
     overflow: hidden;
     background-color: var(--color-sec-0);

@@ -58,13 +58,19 @@ Before beginning this stage of the project, there were some issues in the previo
     \item Gather content of interest to target persona to be used for knowledgebase functionality examples (documents, articles)
 \end{itemize}
 
-\subsection{Best Practices - Accessibility}
+\subsection{Best Practices - Accessibility \bryce}
 
 Independently of any user investigations, there were a number of changes to make to the project for the sake of accessibility. This was done according to the Web Content Accessibility Guidelines (WCAG) published by the Web Accessibility Initiative (WAI) of the World Wide Web Consortium (W3C), making frequent referenct to the the WCAG2.2 quick reference. \cite{wcag-quickref}
+
+In the context of this project, with the main userbase being university students, Accessibility is of vital importance, to both users who need alternative input and output devices such as Siip And Puff devices to emulate keyboard input, or screen readers. Since, at this time, we haven't performed any interactive userbase investigation, this was a good place to focus our efforts, as the requirements to make a website accessible are well-defined (and already known by myself from prior web experience).
 
 We added appropriate \texttt{<label>} elements for forms, specifically on the login and signup pages. These function about the same as the paragraph items in the template, except they work properly with screen readers used by the visually impaired. A number of changes were made to the site for accessibility, including adding the \texttt{autofocus} property to the username input, and event listeners to focus on the next step upon presses of the enter key. This is in contrast to how users who cannot use a mouse (and developers quickly testing) navigate the page, using the tab and enter keys, which, on a site with a number of hyperlinks in the top navigation bar, quickly becomes tedious.
 
 In the styling of the site, we kept accessibility in mind. We used  the html \texttt{rem} unit as the basis for the layout, so that the page would scale properly when zoomed in (as opposed to \texttt{vw} and \texttt{vh}). Pixels were used when setting the initial root font size, and \texttt{100dvh} was used as a minimum height for the main element. This use was justified as it does not impact the readability of the site, only potentially increasing the whitespace if the page content isn't large enough. We ensured that our choice of colors all contrasted well enough with each other in all their combinations.
+
+Rem units are directly proportional to the height of one line of text. The concensus is that this is the best unit to use for elements' size, margins and padding, as the `size` of 1 pixel can vary between desktop and mobile devices, and not scale properly when zoomed in. Since rem units scale exactly with text, they will `look` the same no matter the individual client-side font settings, pixel scale or zoom level.
+
+In choosing the colors fo rthe website, we used a tool called Realtime Colors \cite{rt-colors}. which is designed to randomly generate a coherent color scheme, and most importantly, one that complies with the WCAG recommended contrast ratios between colors for readability. The generated colors were used as a jumping-off point, and adjusted further beyond the initial number and types of colors, used, and re-checked to ensure we reached at least the minimum contrast level between colors. We set the font for the webpage to be Lexend, a sans-serif font designed specifically for maximum readability, defaulting to any sans-serif font if it cannot be found. Buttons were also added to the bottom of the page that switch between a defined light mode and dark mode color scheme, giving users the option to choose between the two.
 
 \section{Design Plan} % Navigation Design in specs
 
@@ -129,23 +135,23 @@ Due to the security project taking longer than expected, and the 1 week extensio
     \end{itemize}
 \end{itemize}
 
-\newpage
-\section{DELETE THIS SECTION: Example code}
-
-\begin{figure}[h]
-    \caption{This is an example figure}
-    \centering
-    \includegraphics[width=0.75\textwidth]{oldAesFromPassword.png}
-\end{figure}
-
-This figure was generated using the codesnap \cite{CodeSnap} vscode extension, with the following settings in \texttt{settings.json}
-
-\begin{verbatim}
-"codesnap.showWindowControls": false,
-"codesnap.containerPadding": "0",
-"codesnap.roundedCorners": false,
-"codesnap.boxShadow": "none"
-\end{verbatim}
+%\newpage
+%\section{DELETE THIS SECTION: Example code}
+%
+%\begin{figure}[h]
+%    \caption{This is an example figure}
+%    \centering
+%    \includegraphics[width=0.75\textwidth]{oldAesFromPassword.png}
+%\end{figure}
+%
+%This figure was generated using the codesnap \cite{CodeSnap} vscode extension, with the following settings in \texttt{settings.json}
+%
+%\begin{verbatim}
+%"codesnap.showWindowControls": false,
+%"codesnap.containerPadding": "0",
+%"codesnap.roundedCorners": false,
+%"codesnap.boxShadow": "none"
+%\end{verbatim}
 
 \newpage
 \section{Bibliography}

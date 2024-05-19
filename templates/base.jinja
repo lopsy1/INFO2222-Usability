@@ -37,8 +37,10 @@ Yeah I know it's pretty ugly...
         </div>
     </nav>
     <!-- The content from any other page goes here -->
-        {% block content %} {% endblock %}
-    <footer>INFO2222 Project: Usability</footer>
+    {% block content %} {% endblock %}
+    <footer>INFO2222 Project: Usability <button onclick="lightMode()">Light Mode</button>
+        <button onclick="darkMode()">Dark Mode</button>
+    </footer>
     <script src="static/js/includes.js"></script>
 </body>
 
