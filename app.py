@@ -6,16 +6,20 @@ the socket event handlers are inside of socket_routes.py
 
 from flask import *
 from flask_socketio import SocketIO, join_room, emit, leave_room
+import time
 import db
 from models import *
 import secrets
 import bcrypt
 import logging
 import base64
+import asyncio
 from sys import stdout, stderr
 
 room = Room()
 
+online_users = []
+user_timers = dict() 
 # this turns off Flask Logging, uncomment this to turn off Logging
 # log = logging.getLogger('werkzeug')
 # log.setLevel(logging.ERROR)
@@ -68,7 +72,8 @@ def signup_user():
     username = request.json.get("username")
     password = request.json.get("password")
     password_client_salt = request.json.get("passwordSalt")
-    
+    online_status = request.json.get("onlineStatus")
+    admin_status = request.json.get("adminStatus")
     # Check username
     error_message = username_error(username)
     if error_message:
@@ -92,7 +97,7 @@ def signup_user():
     #     return "Error: Password must contain a non-alphabetic character."
     hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
     password = "Some string to replace the real password"
-    db.insert_user(username, hashed_password, password_client_salt)
+    db.insert_user(username, hashed_password, password_client_salt, online_status, admin_status)
     session["username"] = username
     return url_for('friends', username=username)
         
@@ -111,6 +116,7 @@ def home():
     # room_id =  room.get_room_id(username)
     # if room_id is None:
     #     room_id = -1
+    db.turn_online(username)
     return render_template("home.jinja", username=username, room_id=-1, partner="")
 
 @app.route("/home/<partner>")
@@ -118,6 +124,7 @@ def home_partner(partner):
     username = session_user(session)
     if not username:
         return redirect(url_for("index"))
+    db.turn_online(username)
     return render_template("home.jinja", username=username, room_id=-1, partner=partner)
 
 # Friends list page, where friends are shown and managed
@@ -129,17 +136,31 @@ def friends():
     user = db.get_user(username)
     if user is None:
         return redirect(url_for("signup"))
+    db.turn_online(username)
     friends_list = db.get_rels(username)
     friends = ""
     incoming = ""
     outgoing = ""
+    status = None
     for i in friends_list:
         if i.accepted:
             # put relationship the right way
             if i.frienda != username:
-                friends += f"<li><a href=\"{url_for('home')}/{i.frienda}\">{i.frienda}</a></li>"
+                statusBool = db.get_user(i.frienda).online_status 
+                if statusBool:
+                    status = f"<p style=\"display:inline; margin-left: 23%;\"> Online </p>"
+                else:
+                    status = f"<p style=\"display:inline; margin-left: 23%;\"> Offline </p>"
+
+                friends += f"<li> <a style=\"display:inline;\" href=\"{url_for('home')}/{i.frienda}\">{i.frienda}</a>{status} <button class=\"buttonStyling\" onclick=\"delete_friend('{i.frienda}')\"> Delete Friend</button> </li>"
             else:
-                friends += f"<li><a href=\"{url_for('home')}/{i.friendb}\">{i.friendb}</a></li>"
+                statusBool = db.get_user(i.friendb).online_status 
+                if statusBool:
+                    status = f"<p style=\"display:inline; margin-left: 23%;\"> Online </p>"
+                else:
+                    status = f"<p style=\"display:inline; margin-left: 23%;\"> Offline </p>"
+
+                friends += f"<li><a style=\"display:inline;\" href=\"{url_for('home')}/{i.friendb}\">{i.friendb}</a>{status} <button class=\"buttonStyling\" onclick=\"delete_friend('{i.friendb}')\"> Delete Friend</button> </li>"
         # If request is to user
         elif i.friendb == username:
             incoming += f"<li>{i.frienda} <button onclick=\"accept_request({i.id});\">Accept</button> <button onclick=\"reject_request({i.id});\">Reject</button></li>"
@@ -147,6 +168,47 @@ def friends():
         elif i.frienda == username:
             outgoing += f"<li>{i.friendb} (Pending)"
     return render_template("friends.jinja", username=username, friends=friends, incoming=incoming, outgoing=outgoing)
+
+@app.route("/friends/delete", methods=["POST"])
+def friend_delete():
+    username = request.json.get("username")
+    friendname = request.json.get("friendname")
+    db.del_friend(username, friendname)
+    return url_for("friends")
+
+@app.route("/ping/friends", methods=["POST"])
+def ping_users_friends():
+    username = request.json.get("username")
+    timeStamp = time.time()
+    if user_timers.get(username) != None:
+        user_timers[username] = timeStamp
+    else:
+        user_timers[username] = timeStamp
+        if (online_users.count(username) <= 0):
+            online_users.append(username)
+    db.turn_online(username)
+    offUsers()
+    return url_for("friends")
+
+@app.route("/ping/home", methods=["POST"])
+def ping_users_home():
+    username = request.json.get("username")
+    timeStamp = time.time()
+    if user_timers.get(username) != None:
+        user_timers[username] = timeStamp
+    else:
+        user_timers[username] = timeStamp
+        if (online_users.count(username) <= 0):
+            online_users.append(username)
+    db.turn_online(username)
+    offUsers()
+    return url_for("home")
+        
+@app.route("/offline", methods=["POST"])
+def user_offline():
+    username = request.json.get("username")
+    db.turn_offline(username)
+    return url_for("index")
 
 # Handle accepting a friend request
 @app.route("/friends/accept", methods=["POST"])
@@ -376,6 +438,21 @@ def bytesToString(text: bytes):
 def stringToBytes(text: str):
     return base64.b64decode(text.encode("utf-8"))
 
+def offUsers():
+    compareTime = time.time()
+    for i in online_users:
+        userTime = user_timers.get(i)
+        if ((compareTime-userTime) > 30):
+            db.turn_offline(i)
+            user_timers[i] = None
+            online_users.remove(i)
+
 if __name__ == '__main__':
     # socketio.run(app)
+    # newuser = User()
+    # db.insert()
+    # Add admin user after
+    
     socketio.run(app, ssl_context=('certs/info2222CA.pem', 'certs/info2222CA.key'))
+
+

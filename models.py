@@ -23,7 +23,9 @@ class User(Base):
     __tablename__ = "user"
     username: Mapped[str] = mapped_column(String, primary_key=True)
     password_hash: Mapped[bytes] = mapped_column(BINARY)
-    password_client_salt: Mapped[str] = mapped_column(String)
+    password_client_salt: Mapped[str] = mapped_column(String) 
+    online_status: Mapped[bool] = mapped_column(Boolean)
+    admin_status: Mapped[bool] = mapped_column(Boolean)
     room_keys = mapped_column(JSON)
 
 class Friend(Base):

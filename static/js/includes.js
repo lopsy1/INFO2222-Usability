@@ -18,7 +18,7 @@ if (username) {
     document.querySelector("#nav-logged-out").style.display = "";
 }
 
-function switch_function()
+function change_theme()
 {
     let theme = localStorage.getItem("theme");
     if( theme == "dark")
@@ -45,6 +45,14 @@ if (theme === "dark") {
 });
 
 
+function open_menu() {
+    document.getElementById("popupMenu").style.display = "inline"
+}
+
+function close_menu() {
+    document.getElementById("popupMenu").style.display = "none"
+}
+
 /* Light mode style changes */
 function change_theme_light() {
 
@@ -58,7 +66,18 @@ document.querySelector("nav").style.backgroundColor = "#ffffff";
 
 document.querySelector("main").style.transitionDuration = "1s";
 document.querySelector("nav").style.transitionDuration = "1s";
+document.querySelector(".switch").style.transitionDuration = "1s"
 document.documentElement.style.setProperty("transition-duration", "1s")
+document.querySelector(".switch").style.backgroundColor = "#f9f9f9"
+// document.querySelector(".buttonStyling").style.transitionDuration = "1s";
+// document.querySelector(".buttonStyling").style.backgroundColor = "#ffffff";
+
+let elem = document.querySelectorAll(".buttonStyling");
+
+for (let styling of elem) {
+styling.style.backgroundColor = "#ffffff";
+styling.style.transitionDuration = "1s"
+}
 
 // Change button hover color
 // document.getElementsByName("ul a:hover").style.backgroundColor = "#f9f9f9"
@@ -78,7 +97,16 @@ function change_theme_light_loaded() {
     
     document.querySelector("main").style.transitionDuration = "0s";
     document.querySelector("nav").style.transitionDuration = "0s";
+    document.querySelector(".switch").style.backgroundColor = "#f9f9f9"
+    document.querySelector(".switch").style.transitionDuration = "0s"
     document.documentElement.style.setProperty("transition-duration", "0s")
+
+    let elem = document.querySelectorAll(".buttonStyling");
+
+    for (let styling of elem) {
+    styling.style.backgroundColor = "#ffffff";
+    styling.style.transitionDuration = "0s"
+    }
     // Change button hover color
     // document.getElementsByName("ul a:hover").style.backgroundColor = "#f9f9f9"
     }
@@ -95,8 +123,16 @@ document.querySelector("nav").style.backgroundColor = "#3b3b3b";
 
 document.querySelector("main").style.transitionDuration = "1s";
 document.querySelector("nav").style.transitionDuration = "1s";
+document.querySelector(".switch").style.backgroundColor = "#1a1a1a"
+document.querySelector(".switch").style.transitionDuration = "1s"
 document.documentElement.style.setProperty("transition-duration", "1s")
 
+let elem = document.querySelectorAll(".buttonStyling");
+
+for (let styling of elem) {
+    styling.style.backgroundColor = "#3b3b3b";
+    styling.style.transitionDuration = "1s"
+}
 // Change button hover color
 // document.getElementsByName("ul a:hover").style.backgroundColor = "#3a3a3a"
 }
@@ -113,8 +149,16 @@ function change_theme_dark_loaded() {
 
     document.querySelector("main").style.transitionDuration = "0s";
     document.querySelector("nav").style.transitionDuration = "0s";
+    document.querySelector(".switch").style.backgroundColor = "#1a1a1a"
+    document.querySelector(".switch").style.transitionDuration = "0s"
     document.documentElement.style.setProperty("transition-duration", "0s")
-    
+
+    let elem = document.querySelectorAll(".buttonStyling");
+
+    for (let styling of elem) {
+        styling.style.backgroundColor = "#3b3b3b";
+        styling.style.transitionDuration = "0s"
+    }
     // Change button hover color
     // document.getElementsByName("ul a:hover").style.backgroundColor = "#3a3a3a"
     }

@@ -2,22 +2,67 @@
 {% extends 'base.jinja' %}
 {% block content %}
 <main class="friends">
+    <script>
+    setTimeout(() => {
+  pingServer();
+    }, 20000);
+    {# ctrl + w detect thing too  #}
+    document.addEventListener('keydown', function(event) {
+  if (event.ctrlKey && event.key === 'w') {
+  confLeave();
+  }
+    });
+    async function pingServer() 
+    {
+        user_name = "{{ username }}";
+        let ConfLea = "{{ url_for('ping_users_friends') }}";
+        let res = await axios.post(ConfLea, {
+            username: user_name
+        })
+        if (!isValidURL(res.data)) {
+                alert(res.data);
+                return;
+        }
+        window.open(res.data, "_self")
+    }
+
+    async function delete_friend(friend_name)
+    {
+        user_name = "{{ username }}";
+        friend_name = friend_name
+        let ConfLea = "{{ url_for('friend_delete') }}";
+        let res = await axios.post(ConfLea, {
+            username: user_name,
+            friendname: friend_name
+        })
+        if (!isValidURL(res.data)) {
+                alert(res.data);
+                return;
+        }
+        window.open(res.data, "_self")
+    }
+ 
+    </script>
     <section class="text">
-        <h2>Friends:</h2>
-        <ul>
-            {{ friends }}
-        </ul>
-        <h2>Friend Requests:</h2>
+        <h1 style="display: inline;"> Friends </h1>
+        <h1 style="display: inline; margin-left: 20%;">Status</h1>
+        <button class="buttonStyling" onclick="open_menu()" >Add Friend</button>
+        <div id="popupMenu"> 
+        <button class="buttonStyling" onclick="close_menu()" >Close</button>
+    <h2>Friend Requests:</h2>
         <h3>Incoming</h3>
         <ul>
             {{ incoming }}
         </ul>
         <h3>Outgoing</h3>
         <p>
-            <input id="friend-input" /><button onclick="send_request()">Send Request</button>
+            <input id="friend-input"><button onclick="send_request()">Send Request</button>
         </p>
         <ul>
             {{ outgoing }}
+        </ul> </div>
+        <ul>
+            {{ friends }}
         </ul>
         <script src="/static/js/libs/socket.io.min.js"></script>
         <script>
@@ -68,6 +113,22 @@
                 }
                 window.open(res.data, "_self")
             }
+    
+            async function confLeave()
+            {
+                user_name = "{{ username }}";
+                let ConfLea = "{{ url_for('user_offline') }}";
+                let res = await axios.post(ConfLea, {
+                    username: user_name
+                })
+                if (!isValidURL(res.data)) {
+                        alert(res.data);
+                        return;
+                }
+                console.log("disconnect");
+                window.open(res.data, "_self")
+            }
+
         </script>
     </section>
 </main>

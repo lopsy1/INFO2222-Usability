@@ -26,8 +26,8 @@ Yeah I know it's pretty ugly...
     <nav>
         <div id="nav-logged-in">
             <ul class="button">
-                <a href="/home">Home</a>
-                <a href="/friends" >Friends</a>
+                <button onclick="home_page()">Home</button>
+                <button onclick="friends_page()">Friends</button>
             </ul>
                 
             <div id="nav-username">
@@ -46,9 +46,7 @@ Yeah I know it's pretty ugly...
     <footer>
     INFO2222 Project: Usability
     </footer>
-    <label class="switch">
-    <input type="checkbox" id="ThemeCheckbox" onclick="switch_function()" checked>
-    <span class="slider round"></span>
+    <button class="switch" onclick="change_theme()">Change Theme</button>
     </label>
     <script src="static/js/includes.js">
     </script>

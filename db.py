@@ -24,12 +24,14 @@ engine = create_engine("sqlite:///database/main.db", echo=True)
 Base.metadata.create_all(engine)
 
 # inserts a user to the database
-def insert_user(username: str, password_hash: bytes, password_client_salt: str):
+def insert_user(username: str, password_hash: bytes, password_client_salt: str, online_status: bool, admin_status: bool):
     with Session(engine) as session:
         user = User(
             username=username,
             password_hash=password_hash,
             password_client_salt = password_client_salt,
+            online_status=online_status,
+            admin_status=admin_status 
         )
         session.add(user)
         session.commit()
@@ -39,7 +41,19 @@ def get_user(username: str):
     with Session(engine) as session:
         return session.get(User, username)
 
-
+def turn_offline(username: str):
+    with Session(engine) as session:   
+        if session.get(User, username) != None:
+            user = session.get(User, username)
+            user.online_status = False
+            session.commit()
+        
+def turn_online(username: str):
+    with Session(engine) as session:   
+        if session.get(User, username) != None:
+            user = session.get(User, username)
+            user.online_status = True
+            session.commit()
 
 def get_rels(username):
     with Session(engine) as session:
@@ -48,6 +62,22 @@ def get_rels(username):
         # resulta = session.execute(select(Friend).where(Friend.frienda == username)).all()
         # resultb = session.execute(select(Friend).where(Friend.friendb == username)).all()
         # return [row[0] for row in resulta] + [row[0] for row in resultb]
+
+def del_friend(username, friendname):
+    with Session(engine) as session:
+        rels = get_rels(username)
+        for i in rels: 
+            if (i.frienda == username and i.friendb == friendname):
+                id = friendship_id(i.frienda, i.friendb)
+                if(id != None):
+                    friend = session.get(Friend, id)
+                    session.delete(friend)
+            elif (i.friendb == username and i.frienda == friendname):
+                id = friendship_id(i.friendb, i.frienda)
+                if(id != None):
+                    friend = session.get(Friend, id)
+                    session.delete(friend)
+        session.commit()
 
 def friendship_id(frienda, friendb):
     with Session(engine) as session:

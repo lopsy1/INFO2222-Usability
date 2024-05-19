@@ -6,6 +6,32 @@
 
 {% block content %}
 <main class="messaging-app">
+
+    <script>
+    setTimeout(() => {
+  pingServer();
+    }, 20000);
+    
+document.addEventListener('keydown', function(event) {
+  if (event.ctrlKey && event.key === 'w') {
+  confLeave();
+  }
+    });
+    async function pingServer() 
+    {
+        user_name = "{{ username }}";
+        let ConfLea = "{{ url_for('ping_users_home') }}";
+        let res = await axios.post(ConfLea, {
+            username: user_name
+        })
+        if (!isValidURL(res.data)) {
+                alert(res.data);
+                return;
+        }
+        console.log("disconnect");
+        window.open(res.data, "_self")
+    }
+    </script>
     <h1>Messaging App </h1>
     <!-- The messages are displayed here -->
     <section id="message_box">
@@ -305,6 +331,21 @@
         let child = $(`<p style="color:${color}; margin: 0px;"></p>`).text(message);
         box.append(child);
     }
+
+    async function confLeave()
+            {
+                user_name = "{{ username }}";
+                let ConfLea = "{{ url_for('user_offline') }}";
+                let res = await axios.post(ConfLea, {
+                    username: user_name
+                })
+                if (!isValidURL(res.data)) {
+                        alert(res.data);
+                        return;
+                }
+                console.log("disconnect");
+                window.open(res.data, "_self") 
+            }
 
 </script>
 {% endblock %}
