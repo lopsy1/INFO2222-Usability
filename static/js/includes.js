@@ -162,3 +162,13 @@ function change_theme_dark_loaded() {
     // Change button hover color
     // document.getElementsByName("ul a:hover").style.backgroundColor = "#3a3a3a"
     }
+
+    function home_page()
+    {
+        window.location.href = "/home";
+    }
+
+    function friends_page()
+    {
+        window.location.href = "/friends";
+    }
